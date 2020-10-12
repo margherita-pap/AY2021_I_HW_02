@@ -23,27 +23,36 @@ CY_ISR(Custom_button_pressed_int){
     pattern++;
     
     if (pattern== YELLOW_RED){ 
+        //I leave the Red led unchanged(always ON) and set Green to start ON and after 1 sec off.
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN);
         GREEN_DRIVER_WriteCompare(TIME_1sec);
     }
     
-    if (pattern==GREEN_YELLOW){    
+    if (pattern==GREEN_YELLOW){
+        //From the previous pattern  just putting to 0 the DC of green allows to keep the green led
+        // always ON, instead for the red led i set the DC to 50%
         RED_DRIVER_WriteCompare(TIME_1sec);
         GREEN_DRIVER_WriteCompare(0);
     }
     if(pattern==RED_GREEN_slow){
+        //Change the period of PWM of both the LEDs
         RED_DRIVER_WritePeriod(TIME_1sec);
         GREEN_DRIVER_WritePeriod(TIME_1sec);
+        //This allows me to create 2 square waves in opposite phase
         RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__LESS_THAN);
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__GREATER_THAN);
+        //Both the waves have DC of 50%
         RED_DRIVER_WriteCompare(TIME_500ms);
         GREEN_DRIVER_WriteCompare(TIME_500ms);
         }
     if(pattern==RED_GREEN_fast){
+        //Change the period of PWM of both LEDS
         RED_DRIVER_WritePeriod(TIME_500ms);
         GREEN_DRIVER_WritePeriod(TIME_500ms);
+        //Create 2 waves in opposite phase
         RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN);
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN);
+        // Duty cicle of 50%
         RED_DRIVER_WriteCompare(TIME_250ms);
         GREEN_DRIVER_WriteCompare(TIME_250ms);   
      }
