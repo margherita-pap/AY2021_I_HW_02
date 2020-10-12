@@ -65,6 +65,7 @@ CY_ISR(Custom_button_pressed_int){
         GREEN_DRIVER_WriteCompare(TIME_1sec);
     }
     if(pattern==ALL_COLORS){
+        
         RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN);
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN);
         GREEN_DRIVER_WritePeriod(TIME_1sec);
