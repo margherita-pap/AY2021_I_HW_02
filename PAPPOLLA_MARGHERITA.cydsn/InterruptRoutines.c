@@ -12,60 +12,64 @@
 #include "InterruptRoutines.h"
 #include "RED_LED.h"
 #include "GREEN_LED.h"
-extern unsigned int pattern;
+extern uint8_t pattern;
 
 CY_ISR(Custom_button_pressed_int){
     pattern++;
-    if (pattern== 2){ 
-        GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN_OR_EQUAL);
-        GREEN_DRIVER_WriteCompare(99);
+    if (pattern== YELLOW_RED){ 
+        GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN);
+        GREEN_DRIVER_WriteCompare(TIME_1sec);
     }
     
-    if (pattern==3){    
-        RED_DRIVER_WriteCompare(99);
+    if (pattern==GREEN_YELLOW){    
+        RED_DRIVER_WriteCompare(TIME_1sec);
         GREEN_DRIVER_WriteCompare(0);
     }
-    if(pattern==4){
-        RED_DRIVER_WritePeriod(99);
-        GREEN_DRIVER_WritePeriod(99);
+    if(pattern==RED_GREEN_slow){
+        RED_DRIVER_WritePeriod(TIME_1sec);
+        GREEN_DRIVER_WritePeriod(TIME_1sec);
         RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__LESS_THAN);
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__GREATER_THAN);
-        RED_DRIVER_WriteCompare(49);
-        GREEN_DRIVER_WriteCompare(49);
+        RED_DRIVER_WriteCompare(TIME_500ms);
+        GREEN_DRIVER_WriteCompare(TIME_500ms);
         }
     if(pattern==5){
-        RED_DRIVER_WritePeriod(49);
-        GREEN_DRIVER_WritePeriod(49);
+        RED_DRIVER_WritePeriod(TIME_500ms);
+        GREEN_DRIVER_WritePeriod(TIME_500ms);
         RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN);
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN);
-        RED_DRIVER_WriteCompare(24);
-        GREEN_DRIVER_WriteCompare(24);   
+        RED_DRIVER_WriteCompare(TIME_250ms);
+        GREEN_DRIVER_WriteCompare(TIME_250ms);   
      }
-    if(pattern==6){
+    if(pattern==YELLOW_RED_OFF){
         RED_DRIVER_Init();
         GREEN_DRIVER_Init();
         RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__LESS_THAN);
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN);
-        RED_DRIVER_WriteCompare(49);
-        GREEN_DRIVER_WriteCompare(99);
+        RED_DRIVER_WriteCompare(TIME_500ms);
+        GREEN_DRIVER_WriteCompare(TIME_1sec);
     }
-    if(pattern==7){
+    if(pattern==ALL_COLORS){
         //RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN_OR_EQUAL_TO); 
         //RED_DRIVER_WriteCompare(99);
-        GREEN_DRIVER_Stop();
-        GREEN_DRIVER_WritePeriod(99);
+        //GREEN_DRIVER_Stop();
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN);
-        GREEN_DRIVER_WriteCompare(49);
-        //GREEN_DRIVER_Sleep();
-        RED_DRIVER_Stop();
-        RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN); 
+        GREEN_DRIVER_WritePeriod(TIME_1sec);
+        GREEN_DRIVER_WriteCompare(TIME_500ms);
+        RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN);
         RED_DRIVER_WriteCompare(99);
+        //GREEN_DRIVER_Sleep();
+        //RED_DRIVER_Stop();
         
-        GREEN_DRIVER_Start();
-        RED_DRIVER_Start();
+        
+        
+       
+        
+        //GREEN_DRIVER_Start();
+        //RED_DRIVER_Start();
     }
-    if(pattern==8){
-        pattern=1;
+    if(pattern==BACK_TO_INITIAL_STATE){
+        pattern=YELLOW;
         RED_DRIVER_Init();
         GREEN_DRIVER_Init();
     }

@@ -11,13 +11,14 @@
 */
 #include "project.h"
 #include "InterruptRoutines.h"
+#include <inttypes.h>
 
-unsigned int pattern=1; // cerca di usare unit8
+uint8_t pattern=YELLOW; // cerca di usare unit8
 
 int main(void)
 {
     CyGlobalIntEnable; /* Enable global interrupts. */
-     pattern=1;
+     pattern=YELLOW;
     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
     button_pressed_int_StartEx(Custom_button_pressed_int);
     GREEN_DRIVER_Start();
