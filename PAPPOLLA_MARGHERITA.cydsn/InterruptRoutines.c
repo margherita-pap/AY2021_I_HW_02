@@ -8,6 +8,11 @@
  * WHICH IS THE PROPERTY OF your company.
  *
  * ========================================
+ * \file InterruptRoutines.c
+ * \This source file allows to change the blinking of an RGB led according to specific patterns
+ * \when it is pushed the button on-board of microcontroller
+ * \author: MArgherita Pappolla
+ * \date: October 12/10/2020
 */
 #include "InterruptRoutines.h"
 #include "RED_LED.h"
@@ -16,6 +21,7 @@ extern uint8_t pattern;
 
 CY_ISR(Custom_button_pressed_int){
     pattern++;
+    
     if (pattern== YELLOW_RED){ 
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN);
         GREEN_DRIVER_WriteCompare(TIME_1sec);
@@ -33,7 +39,7 @@ CY_ISR(Custom_button_pressed_int){
         RED_DRIVER_WriteCompare(TIME_500ms);
         GREEN_DRIVER_WriteCompare(TIME_500ms);
         }
-    if(pattern==5){
+    if(pattern==RED_GREEN_fast){
         RED_DRIVER_WritePeriod(TIME_500ms);
         GREEN_DRIVER_WritePeriod(TIME_500ms);
         RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN);
@@ -50,23 +56,12 @@ CY_ISR(Custom_button_pressed_int){
         GREEN_DRIVER_WriteCompare(TIME_1sec);
     }
     if(pattern==ALL_COLORS){
-        //RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN_OR_EQUAL_TO); 
-        //RED_DRIVER_WriteCompare(99);
-        //GREEN_DRIVER_Stop();
+        RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN);
         GREEN_DRIVER_SetCompareMode(GREEN_DRIVER__B_PWM__LESS_THAN);
         GREEN_DRIVER_WritePeriod(TIME_1sec);
         GREEN_DRIVER_WriteCompare(TIME_500ms);
-        RED_DRIVER_SetCompareMode(RED_DRIVER__B_PWM__GREATER_THAN);
-        RED_DRIVER_WriteCompare(99);
-        //GREEN_DRIVER_Sleep();
-        //RED_DRIVER_Stop();
+        RED_DRIVER_WriteCompare(TIME_1sec);
         
-        
-        
-       
-        
-        //GREEN_DRIVER_Start();
-        //RED_DRIVER_Start();
     }
     if(pattern==BACK_TO_INITIAL_STATE){
         pattern=YELLOW;
