@@ -31,6 +31,4 @@
 #define ALL_COLORS 7
 #define BACK_TO_INITIAL_STATE 8
 
-
-
 /* [] END OF FILE */
